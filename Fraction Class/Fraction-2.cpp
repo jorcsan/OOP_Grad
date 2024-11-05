@@ -51,7 +51,7 @@ public:
 	{
 		return den;
 	}
-	unsignedd long GCD(unsigned long a, unsigned long b)
+	unsigned long GCD(unsigned long a, unsigned long b)
 	{
 	return a%b ? GCD(b, a%b) : b;
 	}
@@ -86,7 +86,97 @@ public:
 	}
 	friend Fraction operator+(int a, Fraction b);
 	friend ostream& operator<<(ostream& os, Fraction a);
+	bool operator==(Fraction& b) const {
+		return this->num == b.getNum() && this->den == b.getDen();
+	}
+
+	// Inequality operator
+	bool operator!=(Fraction& b) const {
+		return !(*this == b);
+	}
+	bool operator>(Fraction& b) const {
+		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+		//den. Once they have the same den then the nums can be compared directly.
+
+		return ((this->num * b.getDen()) > (b.getNum() * this->den));
+	}
+	bool operator<(Fraction& b) const {
+		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+		//den. Once they have the same den then the nums can be compared directly.
+
+		return ((this->num * b.getDen()) < (b.getNum() * this->den));
+	}
+	bool operator>=(Fraction& b) const {
+		return ((*this > b) or (*this == b));
+	}
+	bool operator<=(Fraction& b) const {
+		return ((*this < b) or (*this == b));
+	}
+	//now to deal with our scalar, int. Starting with Fraction comparison int.
+	//then later as friend methods: int comparison Fraction.
+	bool operator==(int& b) const {
+		return this->num == (b * this->den);
+	}
+
+	// Inequality operator
+	bool operator!=(int& b) const {
+		return !(*this == b);
+	}
+	bool operator>(int& b) const {
+		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+		//den. Once they have the same den then the nums can be compared directly.
+
+		return ((this->num) > (b * this->den));
+	}
+	bool operator<(int& b) const {
+		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+		//den. Once they have the same den then the nums can be compared directly.
+
+		return ((this->num) < (b * this->den));
+	}
+	bool operator>=(int& b) const {
+		return ((*this > b) or (*this == b));
+	}
+	bool operator<=(int& b) const {
+		return ((*this < b) or (*this == b));
+	}
+	//these are the friends for int comparison fraction.
+	friend bool operator==(int& b, Fraction& a);
+	friend bool operator!=(int& b, Fraction& a);
+	friend bool operator>(int& b, Fraction& a);
+	friend bool operator<(int& b, Fraction& a);
+	friend bool operator>=(int& b, Fraction& a);
+	friend bool operator<=(int& b, Fraction& a);
 };
+
+bool operator==(int& b, Fraction& a) {
+	return a.getNum() == (b * a.getDen());
+}
+
+// Inequality operator
+bool operator!=(int& b, Fraction& a) {
+	return !(a == b);
+}
+bool operator>(int& b, Fraction& a) {
+	//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+	//den. Once they have the same den then the nums can be compared directly.
+
+	return ((b * a.getDen()) > (a.getNum()));
+}
+bool operator<(int& b, Fraction& a) {
+	//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
+	//den. Once they have the same den then the nums can be compared directly.
+
+	return ((b * a.getDen()) < (a.getNum()));
+}
+bool operator>=(int& b, Fraction& a) {
+	return ((b > a) or (b == a));
+}
+bool operator<=(int& b, Fraction& a) {
+	return ((b < a) or (b == a));
+}
+
+
 Fraction operator+(int a, Fraction b)
 {
 	Fraction temp;
@@ -99,7 +189,7 @@ Fraction operator+(int a, Fraction b)
 ostream& operator<<(ostream& os, Fraction a)
 {
 	if (a.getDen() == 1) {
-		os << a.getDen();
+		os << a.getNum();
 	}
 	else {
 		os << a.getNum() << '/' << a.getDen();
