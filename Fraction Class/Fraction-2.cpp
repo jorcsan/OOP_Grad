@@ -51,7 +51,7 @@ public:
 	{
 		return den;
 	}
-	unsigend long GCD(unsigned long a, unsigned long b)
+	unsignedd long GCD(unsigned long a, unsigned long b)
 	{
 	return a%b ? GCD(b, a%b) : b;
 	}
