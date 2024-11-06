@@ -19,17 +19,43 @@ public:
 			cout << "Error: Denominator cannot be 0, denom has been set to 1." << endl;
 			den = 1;
 		}
-
+		if (den < 0)
+		{
+			//changing a negative den to positive, by doing so we change the num's sign.
+			den *= -1;
+			num *= -1;
+		}
 	}
 	//a solo int becomes int over 1.
 	Fraction(int num) :num(num), den(1) {
+	}
+	Fraction(Fraction& a)
+	{
+		this->setNum(a.getNum());
+		this->setDen(a.getDen());
+	}
+	Fraction operator=(Fraction& a)
+	{
+		if (this != &a) { // self-assignment check
+			this->setNum(a.getNum());
+			this->setDen(a.getDen());
+		}
+		return *this;
 	}
 	//deconstructor in case we decide to use it.
 	~Fraction() {
 	}
 	void setNum(int a)
 	{
-		num = a;
+		if (a == 0)
+		{
+			num = a;
+			den = 1;
+		}
+		else
+		{
+			num = a;
+		}
 	}
 	int getNum()
 	{
@@ -41,6 +67,12 @@ public:
 		{
 			cout << "Denominator cannot be 0, denominator set as 1." << endl;
 			den = 1;
+		}
+		else if(den < 0)
+		{
+			//turning a negative den positive, doing so we change the sign of the num.
+			den *= -1;
+			num *= -1;
 		}
 		else
 		{
@@ -86,6 +118,7 @@ public:
 	}
 	friend Fraction operator+(int a, Fraction b);
 	friend ostream& operator<<(ostream& os, Fraction a);
+	friend istream& operator>>(istream& in, Fraction& fraction);
 	bool operator==(Fraction& b) const {
 		return this->num == b.getNum() && this->den == b.getDen();
 	}
@@ -107,10 +140,10 @@ public:
 		return ((this->num * b.getDen()) < (b.getNum() * this->den));
 	}
 	bool operator>=(Fraction& b) const {
-		return ((*this > b) or (*this == b));
+		return ((*this > b) || (*this == b));
 	}
 	bool operator<=(Fraction& b) const {
-		return ((*this < b) or (*this == b));
+		return ((*this < b) || (*this == b));
 	}
 	//now to deal with our scalar, int. Starting with Fraction comparison int.
 	//then later as friend methods: int comparison Fraction.
@@ -135,10 +168,10 @@ public:
 		return ((this->num) < (b * this->den));
 	}
 	bool operator>=(int& b) const {
-		return ((*this > b) or (*this == b));
+		return ((*this > b) || (*this == b));
 	}
 	bool operator<=(int& b) const {
-		return ((*this < b) or (*this == b));
+		return ((*this < b) || (*this == b));
 	}
 	//these are the friends for int comparison fraction.
 	friend bool operator==(int& b, Fraction& a);
@@ -170,10 +203,10 @@ bool operator<(int& b, Fraction& a) {
 	return ((b * a.getDen()) < (a.getNum()));
 }
 bool operator>=(int& b, Fraction& a) {
-	return ((b > a) or (b == a));
+	return ((b > a) || (b == a));
 }
 bool operator<=(int& b, Fraction& a) {
-	return ((b < a) or (b == a));
+	return ((b < a) || (b == a));
 }
 
 
@@ -196,10 +229,51 @@ ostream& operator<<(ostream& os, Fraction a)
 	}
 	return os;
 }
+istream& operator>>(istream& in, Fraction& a) {
+	int num;
+	char slash;
+
+	if (in >> num) {  // Try reading the numerator first
+		if (in >> std::ws && in.peek() == '/') {  // Check if the next character is '/'
+			in >> slash;  // Read the '/' character
+			int denom;
+			if (in >> denom) {  // Now read the denominator
+				if (denom != 0) {  // Validate that the denominator is not zero
+					a.setNum(num);
+					a.setDen(denom);
+				}
+				else {
+					in.setstate(ios::failbit);  // Denominator can't be zero
+					std::cerr << "Error: Denominator cannot be zero." << std::endl;
+				}
+			}
+			else {
+				in.setstate(ios::failbit);  // Invalid input for denominator
+			}
+		}
+		else {
+			// No '/' character found, so treat it as a single integer
+			a.setNum(num);
+			a.setDen(1);  // Default the denominator to 1
+		}
+	}
+	else {
+		in.setstate(ios::failbit);  // Invalid input for numerator
+	}
+
+	return in;
+}
+
 int main() {
 
 	Fraction f1(1, 2);
+	cout << "test 1" << endl;
 	Fraction f2(1, 3);
+	cout << "test 2" << endl;
 	Fraction f3 = f1 + f2;
+	cout << "test 3" << endl;
+	Fraction f4;
+	cin >> f4;
+	cout << f4;
 	return 0;
 }
