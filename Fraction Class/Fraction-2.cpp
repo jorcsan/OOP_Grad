@@ -93,7 +93,27 @@ public:
 		num = num / gcd;
 		den = den / gcd;
 	}
-	
+	//Fraction negation
+	Fraction operator-()
+	{
+		//return a new fraction with the numerator having the opposite sign.
+		Fraction temp;
+		temp.setNum(-(this->getNum()));
+		temp.setDen(this->getDen());
+		return temp;
+	}
+	Fraction reciprocal()
+	{
+		Fraction temp;
+		temp.setNum(this->getDen());
+		temp.setDen(this->getNum());
+		return temp;
+	}
+	fraction exp(int) 
+	{
+		//I assume some kind of recusive function.
+		return 0;
+	}
 	Fraction operator+(Fraction other)
 	{
 		//multiply the denoms together to create a common denominator.
