@@ -254,7 +254,7 @@ istream& operator>>(istream& in, Fraction& a) {
 	char slash;
 
 	if (in >> num) {  // Try reading the numerator first
-		if (in >> std::ws && in.peek() == '/') {  // Check if the next character is '/'
+		if (in.peek() == '/') {  // Check if the next character is '/' in >> std::ws && 
 			in >> slash;  // Read the '/' character
 			int denom;
 			if (in >> denom) {  // Now read the denominator
