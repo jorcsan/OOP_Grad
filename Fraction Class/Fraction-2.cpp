@@ -111,12 +111,12 @@ public:
 	}
 	Fraction exp(int a) 
 	{
-		Fraction temp(1,1);
+		Fraction temp;
 		//I assume some kind of recusive function.
-		temp = exp_recursion(*this, temp, a);
+		temp = exp_recursion(*this, *this, a);
 		return temp;
 	}
-	//Fraction c will be the intial fraction, Fraction b will be what we return and starts at 1/1.
+	//Fraction c will be the intial fraction, Fraction b will be what we return and starts as a copy of Fraction c.
 	//a is how many times we recur.
 	Fraction exp_recursion(Fraction c, Fraction b, int a)
 	{
@@ -126,7 +126,8 @@ public:
 		}
 		else 
 		{
-			exp_recursion(c, b * c, a - 1);
+			//uncomment this out when done operator overload multiplication is ready.
+//			exp_recursion(c, b * c, a - 1);
 		}
 	}
 	Fraction operator+(Fraction other)
@@ -151,7 +152,24 @@ public:
 		temp.simplify();
 		return temp;
 	}
+	Fraction operator*(Fraction other)
+	{
+		Fraction temp;
+		temp.setNum(this->getNum() * other.getNum());
+		temp.setDen(this->getDen() * other.getDen());
+		temp.simplify();
+		return temp;
+	}
+	Fraction operator*(int a)
+	{
+		Fraction temp;
+		temp.setNum(this->getNum() * a);
+		temp.setDen(this->getDen());
+		temp.simplify();
+		return temp;
+	}
 	friend Fraction operator+(int a, Fraction b);
+	friend Fraction operator*(int a, Fraction b);
 	friend ostream& operator<<(ostream& os, Fraction a);
 	friend istream& operator>>(istream& in, Fraction& fraction);
 	bool operator==(Fraction& b) const {
@@ -254,6 +272,14 @@ Fraction operator+(int a, Fraction b)
 	temp.simplify();
 	return temp;
 }
+Fraction operator*(int a, Fraction b)
+{
+	Fraction temp;
+	temp.setNum(b.getNum() * a);
+	temp.setDen(b.getDen());
+	temp.simplify();
+	return temp;
+}
 ostream& operator<<(ostream& os, Fraction a)
 {
 	if (a.getDen() == 1) {
@@ -309,6 +335,7 @@ int main() {
 	cout << "test 3" << endl;
 	Fraction f4;
 	cin >> f4;
-	cout << f4;
+	cout << f4 << endl;
+	cout << f1 * f2 << endl;
 	return 0;
 }
