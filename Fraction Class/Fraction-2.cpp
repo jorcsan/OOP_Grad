@@ -331,7 +331,7 @@ int main() {
 	cout << "test 1" << endl;
 	Fraction f2(1, 3);
 	cout << "test 2" << endl;
-	Fraction f3 = f1 + f2;
+	Fraction f3 = 5 + f2;
 	cout << "test 3" << endl;
 	Fraction f4;
 	cin >> f4;
