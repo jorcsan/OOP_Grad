@@ -109,10 +109,25 @@ public:
 		temp.setDen(this->getNum());
 		return temp;
 	}
-	fraction exp(int) 
+	Fraction exp(int a) 
 	{
+		Fraction temp(1,1);
 		//I assume some kind of recusive function.
-		return 0;
+		temp = exp_recursion(*this, temp, a);
+		return temp;
+	}
+	//Fraction c will be the intial fraction, Fraction b will be what we return and starts at 1/1.
+	//a is how many times we recur.
+	Fraction exp_recursion(Fraction c, Fraction b, int a)
+	{
+		if (a == 1)
+		{
+			return b;
+		}
+		else 
+		{
+			exp_recursion(c, b * c, a - 1);
+		}
 	}
 	Fraction operator+(Fraction other)
 	{
