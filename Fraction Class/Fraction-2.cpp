@@ -71,8 +71,8 @@ public:
 		else if(den < 0)
 		{
 			//turning a negative den positive, doing so we change the sign of the num.
-			den *= -1;
-			num *= -1;
+			this->den *= -1;
+			this->num *= -1;
 		}
 		else
 		{
@@ -337,5 +337,9 @@ int main() {
 	cin >> f4;
 	cout << f4 << endl;
 	cout << f1 * f2 << endl;
+	f3 = f1 * f2;
+	cout << f3 << endl;
+	Fraction f5(1,-1);
+	cout << f5 << endl;
 	return 0;
 }
