@@ -84,13 +84,20 @@ public:
 		return den;
 	}
 	unsigned long int GCD(unsigned long int a, unsigned long int b) {
-		return (b == 0) ? a : GCD(b, a % b);
+		return a%b ? GCD(b, a % b): b;
 	}
 	void simplify()
 	{
-		int gcd = GCD(abs(num), den);
-		num = num / gcd;
-		den = den / gcd;
+		if (den != 0)
+		{
+			int gcd = GCD(abs(num), den);
+			num = num / gcd;
+			den = den / gcd;
+		}
+		else 
+		{
+			cout << "Error: at some point a zero has reach the denominator. Simplify call is cancelled." << endl
+		}
 	}
 	//Fraction negation
 	Fraction operator-()
