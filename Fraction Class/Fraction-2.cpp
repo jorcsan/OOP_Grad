@@ -100,6 +100,7 @@ public:
 		Fraction temp;
 		temp.setNum(-(this->getNum()));
 		temp.setDen(this->getDen());
+		temp.simplify();
 		return temp;
 	}
 	Fraction reciprocal()
@@ -107,6 +108,7 @@ public:
 		Fraction temp;
 		temp.setNum(this->getDen());
 		temp.setDen(this->getNum());
+		temp.simplify();
 		return temp;
 	}
 	Fraction exp(int a) 
@@ -114,6 +116,7 @@ public:
 		Fraction temp;
 		//I assume some kind of recusive function.
 		temp = exp_recursion(*this, *this, a);
+		temp.simplify();
 		return temp;
 	}
 	//Fraction c will be the intial fraction, Fraction b will be what we return and starts as a copy of Fraction c.
@@ -358,6 +361,7 @@ istream& operator>>(istream& in, Fraction& a) {
 				if (denom != 0) {  // Validate that the denominator is not zero
 					a.setNum(num);
 					a.setDen(denom);
+					a.simplify();
 				}
 				else {
 					in.setstate(ios::failbit);  // Denominator can't be zero
