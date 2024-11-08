@@ -17,13 +17,13 @@ public:
 		if (den == 0)
 		{
 			cout << "Error: Denominator cannot be 0, denom has been set to 1." << endl;
-			den = 1;
+			this->den = 1;
 		}
 		if (den < 0)
 		{
 			//changing a negative den to positive, by doing so we change the num's sign.
-			den *= -1;
-			num *= -1;
+			this->den = den * -1;
+			this->num = num * -1;
 		}
 	}
 	//a solo int becomes int over 1.
@@ -63,16 +63,16 @@ public:
 	}
 	void setDen(int a)
 	{
-		if (den == 0)
+		if (a == 0)
 		{
 			cout << "Denominator cannot be 0, denominator set as 1." << endl;
 			den = 1;
 		}
-		else if(den < 0)
+		else if(a < 0)
 		{
 			//turning a negative den positive, doing so we change the sign of the num.
-			this->den *= -1;
-			this->num *= -1;
+			num = num * -1;
+			den = den * -1;
 		}
 		else
 		{
@@ -90,6 +90,7 @@ public:
 	void simplify()
 	{
 		int gcd = GCD(num, den);
+		cout << gcd << endl;
 		num = num / gcd;
 		den = den / gcd;
 	}
@@ -387,19 +388,21 @@ istream& operator>>(istream& in, Fraction& a) {
 
 int main() {
 
-	Fraction f1(1, 2);
+	Fraction f1(1, -2);
 	cout << "test 1" << endl;
 	Fraction f2(1, 3);
 	cout << "test 2" << endl;
 	Fraction f3 = 5 + f2;
 	cout << "test 3" << endl;
 	Fraction f4;
-	cin >> f4;
-	cout << f4 << endl;
+//	cin >> f4;
+//	cout << f4 << endl;
+	cout << f1 << endl;
+	cout << f2 << endl;
 	cout << f1 * f2 << endl;
 	f3 = f1 * f2;
-	cout << f3 << endl;
+//	cout << f3 << endl;
 	Fraction f5(1,-1);
-	cout << f5 << endl;
+//	cout << f5 << endl;
 	return 0;
 }
