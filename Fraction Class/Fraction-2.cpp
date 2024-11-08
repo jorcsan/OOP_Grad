@@ -84,20 +84,13 @@ public:
 		return den;
 	}
 	unsigned long int GCD(unsigned long int a, unsigned long int b) {
-		return a%b ? GCD(b, a % b): b;
+		return (b == 0) ? a : GCD(b, a % b);
 	}
 	void simplify()
 	{
-		if (den != 0)
-		{
-			int gcd = GCD(abs(num), den);
-			num = num / gcd;
-			den = den / gcd;
-		}
-		else 
-		{
-			cout << "Error: at some point a zero has reach the denominator. Simplify call is cancelled." << endl
-		}
+		int gcd = GCD(abs(num), den);
+		num = num / gcd;
+		den = den / gcd;
 	}
 	//Fraction negation
 	Fraction operator-()
@@ -141,6 +134,7 @@ public:
 			return temp;
 		}
 	}
+	
 	//Fraction c will be the intial fraction, Fraction b will be what we return and starts as a copy of Fraction c.
 	//a is how many times we recur.
 	Fraction exp_recursion(Fraction c, Fraction b, int a)
@@ -154,6 +148,9 @@ public:
 			//uncomment this out when done operator overload multiplication is ready.
 			return exp_recursion(c, b * c, a - 1);
 		}
+	}
+	operator double() const{
+		return double(num)/double(den);
 	}
 	Fraction operator+(Fraction other)
 	{
@@ -412,8 +409,10 @@ int main() {
 
 	Fraction f1(2, 4);
 	cout << "test 1" << endl;
-	Fraction f2(1, 3);
-	cout << "test 2" << endl;
+	cout << double(f1);
+	
+	// Fraction f2(1, 3);
+	// cout << "test 2" << endl;
 //	Fraction f3 = 5 + f2;
 //	cout << "test 3" << endl;
 	Fraction f4;
@@ -421,10 +420,10 @@ int main() {
 //	cout << f4 << endl;
 //	cout << f1 << endl;
 //	cout << f2 << endl;
-	cout << f1 << endl;
-	cout << f1 / f2 << endl;
-	cout << f2.reciprocal() << endl;
-	cout << "exponent test " << f1.exp(0) << endl;
+	// cout << f1 << endl;
+	// cout << f1 / f2 << endl;
+	// cout << f2.reciprocal() << endl;
+	// cout << "exponent test " << f1.exp(0) << endl;
 //	f3 = f1 * f2;
 //	cout << f3 << endl;
 //	Fraction f5(1,-1);
