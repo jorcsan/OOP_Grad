@@ -29,12 +29,12 @@ public:
 	//a solo int becomes int over 1.
 	Fraction(int num) :num(num), den(1) {
 	}
-	Fraction(Fraction& a)
+	Fraction(const Fraction& a)
 	{
 		this->setNum(a.getNum());
 		this->setDen(a.getDen());
 	}
-	Fraction operator=(Fraction& a)
+	Fraction operator=(const Fraction& a)
 	{
 		if (this != &a) { // self-assignment check
 			this->setNum(a.getNum());
@@ -57,7 +57,7 @@ public:
 			num = a;
 		}
 	}
-	int getNum()
+	int getNum() const
 	{
 		return num;
 	}
@@ -79,7 +79,7 @@ public:
 			den = a;
 		}
 	}
-	int getDen()
+	int getDen() const
 	{
 		return den;
 	}
@@ -127,7 +127,7 @@ public:
 		else 
 		{
 			//uncomment this out when done operator overload multiplication is ready.
-//			exp_recursion(c, b * c, a - 1);
+			return exp_recursion(c, b * c, a - 1);
 		}
 	}
 	Fraction operator+(Fraction other)
@@ -152,6 +152,29 @@ public:
 		temp.simplify();
 		return temp;
 	}
+	Fraction operator-(Fraction other)
+	{
+		//multiply the denoms together to create a common denominator.
+		//multiply each num by the opposite denom, then add them together.
+		//then simplify.
+		Fraction temp;
+		temp.setNum((this->num * other.getDen()) - (other.getNum() * this->getDen()));
+		temp.setDen(this->den * other.getDen());
+		//Call simplify on temp here.
+		temp.simplify();
+		return temp;
+	}
+
+	Fraction operator-(int a)
+	{
+		Fraction temp;
+		temp.setNum(this->num - (a * this->getDen()));
+		temp.setDen(this->den);
+		//simplify temp here.
+		temp.simplify();
+		return temp;
+	}
+
 	Fraction operator*(Fraction other)
 	{
 		Fraction temp;
@@ -168,7 +191,25 @@ public:
 		temp.simplify();
 		return temp;
 	}
+	Fraction operator/(Fraction other)
+	{
+		Fraction temp;
+		temp.setNum(this->num * other.den);
+		temp.setDen(this->den * other.num);
+		temp.simplify();
+		return temp;
+	}
+	Fraction operator/(int a)
+	{
+		Fraction temp;
+		temp.setNum(this->num);
+		temp.setDen(this->den * a);
+		temp.simplify();
+		return temp;
+	}
+	friend Fraction operator/(int a, Fraction b);
 	friend Fraction operator+(int a, Fraction b);
+	friend Fraction operator-(int a, Fraction b);
 	friend Fraction operator*(int a, Fraction b);
 	friend ostream& operator<<(ostream& os, Fraction a);
 	friend istream& operator>>(istream& in, Fraction& fraction);
@@ -268,15 +309,30 @@ Fraction operator+(int a, Fraction b)
 	Fraction temp;
 	temp.setNum(b.getNum() + (a * b.getDen()));
 	temp.setDen(b.getDen());
-	//simplify temp here
+	temp.simplify();
+	return temp;
+}
+Fraction operator-(int a, Fraction b)
+{
+	Fraction temp;
+	temp.setNum((a * b.getDen()) - b.getNum());
+	temp.setDen(b.getDen());
 	temp.simplify();
 	return temp;
 }
 Fraction operator*(int a, Fraction b)
 {
 	Fraction temp;
-	temp.setNum(b.getNum() * a);
-	temp.setDen(b.getDen());
+	temp.setNum(b.num * a);
+	temp.setDen(b.den);
+	temp.simplify();
+	return temp;
+}
+Fraction operator/(int a, Fraction b)
+{
+	Fraction temp;
+	temp.setNum(b.num);
+	temp.setDen(b.den * a);
 	temp.simplify();
 	return temp;
 }
