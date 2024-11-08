@@ -114,9 +114,25 @@ public:
 	{
 		Fraction temp;
 		//I assume some kind of recusive function.
-		temp = exp_recursion(*this, *this, a);
-		temp.simplify();
-		return temp;
+		if (a > 0)
+		{
+			temp = exp_recursion(*this, *this, a);
+			temp.simplify();
+			return temp;
+		}
+		else if(a == 0)
+		{
+			temp.setNum(1);
+			temp.setDen(1);
+			return temp;
+		}
+		else
+		{
+			cout << "Warning: negative powers have not been implemented, returning 1" << endl;
+			temp.setNum(1);
+			temp.setDen(1);
+			return temp;
+		}
 	}
 	//Fraction c will be the intial fraction, Fraction b will be what we return and starts as a copy of Fraction c.
 	//a is how many times we recur.
@@ -386,7 +402,7 @@ istream& operator>>(istream& in, Fraction& a) {
 
 int main() {
 
-	Fraction f1(1, -2);
+	Fraction f1(3, -4);
 	cout << "test 1" << endl;
 	Fraction f2(1, 3);
 	cout << "test 2" << endl;
@@ -399,6 +415,7 @@ int main() {
 //	cout << f2 << endl;
 	cout << f1 << endl;
 	cout << f1 * f2 << endl;
+	cout << "exponent test " << f1.exp(0) << endl;
 //	f3 = f1 * f2;
 //	cout << f3 << endl;
 //	Fraction f5(1,-1);
