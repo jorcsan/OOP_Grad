@@ -9,11 +9,11 @@ using namespace std;
 
 class Fraction{
 private:
-	int num;
-	int den;
+	long int num;
+	long int den;
 public:
 	//default constructor.
-	Fraction(int num = 0, int den = 1):num(num), den(den){
+	Fraction(long int num = 0, long int den = 1):num(num), den(den){
 		if (den == 0)
 		{
 			cout << "Error: Denominator cannot be 0, denom has been set to 1." << endl;
@@ -27,7 +27,7 @@ public:
 		}
 	}
 	//a solo int becomes int over 1.
-	Fraction(int num) :num(num), den(1) {
+	Fraction(long int num) :num(num), den(1) {
 	}
 	Fraction(const Fraction& a)
 	{
@@ -45,7 +45,7 @@ public:
 	//deconstructor in case we decide to use it.
 	~Fraction() {
 	}
-	void setNum(int a)
+	void setNum(long int a)
 	{
 		if (a == 0)
 		{
@@ -57,11 +57,11 @@ public:
 			num = a;
 		}
 	}
-	int getNum() const
+	long int getNum() const
 	{
 		return num;
 	}
-	void setDen(int a)
+	void setDen(long int a)
 	{
 		if (a == 0)
 		{
@@ -79,18 +79,16 @@ public:
 			den = a;
 		}
 	}
-	int getDen() const
+	long int getDen() const
 	{
 		return den;
 	}
-	unsigned long GCD(unsigned long a, unsigned long b)
-	{
-	return a%b ? GCD(b, a%b) : b;
+	unsigned long int GCD(unsigned long int a, unsigned long int b) {
+		return (b == 0) ? a : GCD(b, a % b);
 	}
 	void simplify()
 	{
-		int gcd = GCD(num, den);
-		cout << gcd << endl;
+		int gcd = GCD(abs(num), den);
 		num = num / gcd;
 		den = den / gcd;
 	}
@@ -147,7 +145,7 @@ public:
 		return temp;
 	}
 	//adding Fraction + a scalar
-	Fraction operator+(int a)
+	Fraction operator+(long int a)
 	{
 		Fraction temp;
 		temp.setNum(this->num + (a * this->getDen()));
@@ -169,7 +167,7 @@ public:
 		return temp;
 	}
 
-	Fraction operator-(int a)
+	Fraction operator-(long int a)
 	{
 		Fraction temp;
 		temp.setNum(this->num - (a * this->getDen()));
@@ -187,7 +185,7 @@ public:
 		temp.simplify();
 		return temp;
 	}
-	Fraction operator*(int a)
+	Fraction operator*(long int a)
 	{
 		Fraction temp;
 		temp.setNum(this->getNum() * a);
@@ -203,7 +201,7 @@ public:
 		temp.simplify();
 		return temp;
 	}
-	Fraction operator/(int a)
+	Fraction operator/(long int a)
 	{
 		Fraction temp;
 		temp.setNum(this->num);
@@ -211,10 +209,10 @@ public:
 		temp.simplify();
 		return temp;
 	}
-	friend Fraction operator/(int a, Fraction b);
-	friend Fraction operator+(int a, Fraction b);
-	friend Fraction operator-(int a, Fraction b);
-	friend Fraction operator*(int a, Fraction b);
+	friend Fraction operator/(long int a, Fraction b);
+	friend Fraction operator+(long int a, Fraction b);
+	friend Fraction operator-(long int a, Fraction b);
+	friend Fraction operator*(long int a, Fraction b);
 	friend ostream& operator<<(ostream& os, Fraction a);
 	friend istream& operator>>(istream& in, Fraction& fraction);
 	bool operator==(Fraction& b) const {
@@ -245,70 +243,70 @@ public:
 	}
 	//now to deal with our scalar, int. Starting with Fraction comparison int.
 	//then later as friend methods: int comparison Fraction.
-	bool operator==(int& b) const {
+	bool operator==(long int& b) const {
 		return this->num == (b * this->den);
 	}
 
 	// Inequality operator
-	bool operator!=(int& b) const {
+	bool operator!=(long int& b) const {
 		return !(*this == b);
 	}
-	bool operator>(int& b) const {
+	bool operator>(long int& b) const {
 		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
 		//den. Once they have the same den then the nums can be compared directly.
 
 		return ((this->num) > (b * this->den));
 	}
-	bool operator<(int& b) const {
+	bool operator<(long int& b) const {
 		//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
 		//den. Once they have the same den then the nums can be compared directly.
 
 		return ((this->num) < (b * this->den));
 	}
-	bool operator>=(int& b) const {
+	bool operator>=(long int& b) const {
 		return ((*this > b) || (*this == b));
 	}
-	bool operator<=(int& b) const {
+	bool operator<=(long int& b) const {
 		return ((*this < b) || (*this == b));
 	}
 	//these are the friends for int comparison fraction.
-	friend bool operator==(int& b, Fraction& a);
-	friend bool operator!=(int& b, Fraction& a);
-	friend bool operator>(int& b, Fraction& a);
-	friend bool operator<(int& b, Fraction& a);
-	friend bool operator>=(int& b, Fraction& a);
-	friend bool operator<=(int& b, Fraction& a);
+	friend bool operator==(long int& b, Fraction& a);
+	friend bool operator!=(long int& b, Fraction& a);
+	friend bool operator>(long int& b, Fraction& a);
+	friend bool operator<(long int& b, Fraction& a);
+	friend bool operator>=(long int& b, Fraction& a);
+	friend bool operator<=(long int& b, Fraction& a);
 };
 
-bool operator==(int& b, Fraction& a) {
+bool operator==(long int& b, Fraction& a) {
 	return a.getNum() == (b * a.getDen());
 }
 
 // Inequality operator
-bool operator!=(int& b, Fraction& a) {
+bool operator!=(long int& b, Fraction& a) {
 	return !(a == b);
 }
-bool operator>(int& b, Fraction& a) {
+bool operator>(long int& b, Fraction& a) {
 	//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
 	//den. Once they have the same den then the nums can be compared directly.
 
 	return ((b * a.getDen()) > (a.getNum()));
 }
-bool operator<(int& b, Fraction& a) {
+bool operator<(long int& b, Fraction& a) {
 	//multiply each num by the opposite den, this is the relevant part of making two fractions have the same
 	//den. Once they have the same den then the nums can be compared directly.
 
 	return ((b * a.getDen()) < (a.getNum()));
 }
-bool operator>=(int& b, Fraction& a) {
+bool operator>=(long int& b, Fraction& a) {
 	return ((b > a) || (b == a));
 }
-bool operator<=(int& b, Fraction& a) {
+bool operator<=(long int& b, Fraction& a) {
 	return ((b < a) || (b == a));
 }
 
 
-Fraction operator+(int a, Fraction b)
+Fraction operator+(long int a, Fraction b)
 {
 	Fraction temp;
 	temp.setNum(b.getNum() + (a * b.getDen()));
@@ -316,7 +314,7 @@ Fraction operator+(int a, Fraction b)
 	temp.simplify();
 	return temp;
 }
-Fraction operator-(int a, Fraction b)
+Fraction operator-(long int a, Fraction b)
 {
 	Fraction temp;
 	temp.setNum((a * b.getDen()) - b.getNum());
@@ -324,7 +322,7 @@ Fraction operator-(int a, Fraction b)
 	temp.simplify();
 	return temp;
 }
-Fraction operator*(int a, Fraction b)
+Fraction operator*(long int a, Fraction b)
 {
 	Fraction temp;
 	temp.setNum(b.num * a);
@@ -332,7 +330,7 @@ Fraction operator*(int a, Fraction b)
 	temp.simplify();
 	return temp;
 }
-Fraction operator/(int a, Fraction b)
+Fraction operator/(long int a, Fraction b)
 {
 	Fraction temp;
 	temp.setNum(b.num);
@@ -392,17 +390,18 @@ int main() {
 	cout << "test 1" << endl;
 	Fraction f2(1, 3);
 	cout << "test 2" << endl;
-	Fraction f3 = 5 + f2;
-	cout << "test 3" << endl;
+//	Fraction f3 = 5 + f2;
+//	cout << "test 3" << endl;
 	Fraction f4;
 //	cin >> f4;
 //	cout << f4 << endl;
+//	cout << f1 << endl;
+//	cout << f2 << endl;
 	cout << f1 << endl;
-	cout << f2 << endl;
 	cout << f1 * f2 << endl;
-	f3 = f1 * f2;
+//	f3 = f1 * f2;
 //	cout << f3 << endl;
-	Fraction f5(1,-1);
+//	Fraction f5(1,-1);
 //	cout << f5 << endl;
 	return 0;
 }
