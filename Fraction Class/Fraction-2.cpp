@@ -372,61 +372,141 @@ ostream& operator<<(ostream& os, Fraction a)
 istream& operator>>(istream& in, Fraction& a) {
 	int num;
 	char slash;
-
-	if (in >> num) {  // Try reading the numerator first
-		if (in.peek() == '/') {  // Check if the next character is '/' in >> std::ws && 
-			in >> slash;  // Read the '/' character
-			int denom;
-			if (in >> denom) {  // Now read the denominator
-				if (denom != 0) {  // Validate that the denominator is not zero
-					a.setNum(num);
-					a.setDen(denom);
-					a.simplify();
+	try {
+		if (in >> num) {  // Try reading the numerator first
+			if (in.peek() == '/') {  // Check if the next character is '/' in >> std::ws && 
+				in >> slash;  // Read the '/' character
+				int denom;
+				if (in >> denom) {  // Now read the denominator
+					if (denom != 0) {  // Validate that the denominator is not zero
+						a.setNum(num);
+						a.setDen(denom);
+						a.simplify();
+					}
+					else {
+						throw(404);  // Denominator can't be zero
+					}
 				}
 				else {
-					in.setstate(ios::failbit);  // Denominator can't be zero
-					std::cerr << "Error: Denominator cannot be zero." << std::endl;
+					throw(404);  // Invalid input for denominator
 				}
 			}
 			else {
-				in.setstate(ios::failbit);  // Invalid input for denominator
+				// No '/' character found, so treat it as a single integer
+				a.setNum(num);
+				a.setDen(1);  // Default the denominator to 1
 			}
 		}
 		else {
-			// No '/' character found, so treat it as a single integer
-			a.setNum(num);
-			a.setDen(1);  // Default the denominator to 1
+			throw(404);
 		}
-	}
-	else {
-		in.setstate(ios::failbit);  // Invalid input for numerator
-	}
 
-	return in;
+		return in;
+	}
+	catch (...)
+	{	
+		cin.clear();
+		cin.ignore();
+		cout << "Error: not a number.\nFraction value will be set to 0.\n";
+		a.setNum(0);
+		a.setDen(1);
+		return in;
+	}
 }
 
 int main() {
 
-	Fraction f1(2, 4);
-	cout << "test 1" << endl;
-	cout << double(f1);
-	
-	// Fraction f2(1, 3);
-	// cout << "test 2" << endl;
-//	Fraction f3 = 5 + f2;
-//	cout << "test 3" << endl;
-	Fraction f4;
-//	cin >> f4;
-//	cout << f4 << endl;
-//	cout << f1 << endl;
-//	cout << f2 << endl;
-	// cout << f1 << endl;
-	// cout << f1 / f2 << endl;
-	// cout << f2.reciprocal() << endl;
-	// cout << "exponent test " << f1.exp(0) << endl;
-//	f3 = f1 * f2;
-//	cout << f3 << endl;
-//	Fraction f5(1,-1);
-//	cout << f5 << endl;
+	Fraction f1, f2;
+	int power;
+	int choice = 1;
+	while (choice != 0)
+	{
+		cout << "Please enter you fractions as 'A/B' without quotes then --> Enter.\n";
+		cout << "All fractions will automatically be simplified.\n";
+		cout << "Example: Numerator/Denominator: 1/2\n";
+		cout << "Numerator/Denominator: ";
+		cin >> f1;
+		cout << "\nNumerator/Denominator: ";
+		cin >> f2;
+
+		cout << "\n----------------------------------------------------------------------------------------\n";
+		cout << "Converting both fractions into double:\n";
+		cout << f1 << " Converted to double  is: " << double(f1) << endl;
+		cout << f2 << " Converted to double  is: " << double(f2) << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Adding both fractions:\n";
+		cout << f1 << " (+) " << f2 << " = " << f1 + f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Subtracting both fractions:\n";
+		cout << f1 << " (-) " << f2 << " = " << f1 - f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Multiplying both fractions:\n";
+		cout << f1 << " (*) " << f2 << " = " << f1 * f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Dividing both fractions:\n";
+		cout << f1 << " (/) " << f2 << " = " << f1 / f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Negating both fractions:\n";
+		cout << "The negated value of " << f1 << " is " << -f1 << endl;
+		cout << "The negated value of " << f2 << " is " << -f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Calculating the reciprocal of both fractions:\n";
+		cout << "The reciprocal value of " << f1 << " is " << f1.reciprocal() << endl;
+		cout << "The reciprocal value of " << f2 << " is " << f2.reciprocal() << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fractions are equal:\n";
+		(f1 == f2) ? cout << "Fractions are equal" : cout << "Fractions are not equal" << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fractions are different:\n";
+		(f1 != f2) ? cout << "Fractions are different\n" : cout << "Fractions are not different\n";
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fraction (A) is less than fraction (b):\n";
+		cout << f1 << " is ";
+		(f1 < f2) ? cout << "" : cout << "not ";
+		cout << "less than " << f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fraction (A) is less than or equal to fraction (b):\n";
+		cout << f1 << " is ";
+		(f1 <= f2) ? cout << "" : cout << "not ";
+		cout << "less than or equal to " << f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fraction (A) is greater than fraction (b):\n";
+		cout << f1 << " is ";
+		(f1 > f2) ? cout << "" : cout << "not ";
+		cout << "greater than " << f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Checking if fraction (A) is greater than or equal to fraction (b):\n";
+		cout << f1 << " is ";
+		(f1 >= f2) ? cout << "" : cout << "not ";
+		cout << "greater than or equal to " << f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Assigning new values to the fractions.\n";
+		cout << "Please assign a new value for Fraction A:\n";
+		//copying the original values of f1 and f2 to use for output soon.
+		Fraction f3(f1), f4(f2);
+		cout << "Numerator/Denominator: ";
+		cin >> f1;
+		cout << "\nPlease assign a new value for Fraction B:\n";
+		cout << "Numerator/Denominator: ";
+		cin >> f2;
+		cout << "\nPrevious value for (a) was: " << f3 << "--> New value for (a) is: " << f1 << endl;
+		cout << "\nPrevious value for (b) was: " << f4 << "--> New value for (a) is: " << f2 << endl;
+		cout << "----------------------------------------------------------------------------------------\n";
+		cout << "Fractions to the power of i:\nPlease enter the power value of i:\n";
+		cin >> power;
+		cout << f1 << " to the power of " << power << " is " << f1.exp(power) << endl;
+		cout << f2 << " to the power of " << power << " is " << f2.exp(power) << endl;
+		cout << "========================================================================================\n";
+		cout << "Would you like to start over? Yes --> any input other than 0; No --> 0\n";
+		cin >> choice;
+		try {
+			(choice == 0) ? choice = 0 : choice = 1;
+		}
+		catch(...)
+		{
+			choice == 0;
+		}
+	}
+
 	return 0;
 }
