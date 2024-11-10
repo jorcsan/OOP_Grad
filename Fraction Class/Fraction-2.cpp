@@ -200,8 +200,8 @@ public:
 	Fraction operator/(Fraction other)
 	{
 		Fraction temp;
-		temp.setNum(this->num * other.den);
-		temp.setDen(this->den * other.num);
+		temp.setNum(this->getNum() * other.getDen());
+		temp.setDen(this->getDen() * other.getNum());
 		temp.simplify();
 		return temp;
 	}
@@ -429,15 +429,15 @@ int main() {
 		cout << f1 << " (*) " << f2 << " = " << f1 * f2 << endl;
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Dividing both fractions:\n";
-		(f2.getNum() == 0) ? cout << f1 << " (/) " << f2 << " = " << f1 / f2 << endl : cout << "Division by zero.\n";
+		(f2.getNum() != 0) ? cout << f1 << " (/) " << f2 << " = " << f1 / f2 << endl : cout << "Division by zero.\n";
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Negating both fractions:\n";
 		cout << "The negated value of " << f1 << " is " << -f1 << endl;
 		cout << "The negated value of " << f2 << " is " << -f2 << endl;
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Calculating the reciprocal of both fractions:\n";
-		(f1.getNum() == 0) ? cout << "The reciprocal value of " << f1 << " is " << f1.reciprocal() << endl: cout << "Division by zero.\n";
-		(f2.getNum() == 0) ? cout << "The reciprocal value of " << f2 << " is " << f2.reciprocal() << endl: cout << "Division by zero.\n";
+		(f1.getNum() != 0) ? cout << "The reciprocal value of " << f1 << " is " << f1.reciprocal() << endl: cout << "Division by zero.\n";
+		(f2.getNum() != 0) ? cout << "The reciprocal value of " << f2 << " is " << f2.reciprocal() << endl: cout << "Division by zero.\n";
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Checking if fractions are equal:\n";
 		(f1 == f2) ? cout << "Fractions are equal" : cout << "Fractions are not equal" << endl;
