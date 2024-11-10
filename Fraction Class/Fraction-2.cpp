@@ -14,17 +14,13 @@ private:
 public:
 	//default constructor.
 	Fraction(long int num = 0, long int den = 1):num(num), den(den){
-		if (den == 0)
-		{
-			cout << "Error: Denominator cannot be 0, denom has been set to 1." << endl;
-			this->den = 1;
-		}
 		if (den < 0)
 		{
 			//changing a negative den to positive, by doing so we change the num's sign.
 			this->den = den * -1;
 			this->num = num * -1;
 		}
+
 	}
 	//a solo int becomes int over 1.
 	Fraction(long int num) :num(num), den(1) {
@@ -47,15 +43,7 @@ public:
 	}
 	void setNum(long int a)
 	{
-		if (a == 0)
-		{
 			num = a;
-			den = 1;
-		}
-		else
-		{
-			num = a;
-		}
 	}
 	long int getNum() const
 	{
@@ -63,20 +51,15 @@ public:
 	}
 	void setDen(long int a)
 	{
-		if (a == 0)
-		{
-			cout << "Denominator cannot be 0, denominator set as 1." << endl;
-			den = 1;
-		}
-		else if(a < 0)
+		if(a < 0)
 		{
 			//turning a negative den positive, doing so we change the sign of the num.
-			num = num * -1;
-			den = den * -1;
+			this->num = num * -1;
+			this->den = den * -1;
 		}
 		else
 		{
-			den = a;
+			this->den = a;
 		}
 	}
 	long int getDen() const
@@ -88,9 +71,9 @@ public:
 	}
 	void simplify()
 	{
-		int gcd = GCD(abs(num), den);
-		num = num / gcd;
-		den = den / gcd;
+		long int gcd = GCD(abs(num), den);
+		this->setNum(num / gcd);
+		this->setDen(den / gcd);
 	}
 	//Fraction negation
 	Fraction operator-()
@@ -203,6 +186,7 @@ public:
 		temp.setNum(this->getNum() * other.getNum());
 		temp.setDen(this->getDen() * other.getDen());
 		temp.simplify();
+//		cout << "\n\n" << temp.getNum() << " " << temp.getDen() <<  "\n\n";
 		return temp;
 	}
 	Fraction operator*(long int a)
@@ -384,7 +368,8 @@ istream& operator>>(istream& in, Fraction& a) {
 						a.simplify();
 					}
 					else {
-						throw(404);  // Denominator can't be zero
+						cout << "Fraction Error 2: Illegal rational number.";
+						exit(0);  // Denominator can't be zero
 					}
 				}
 				else {
@@ -444,15 +429,15 @@ int main() {
 		cout << f1 << " (*) " << f2 << " = " << f1 * f2 << endl;
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Dividing both fractions:\n";
-		cout << f1 << " (/) " << f2 << " = " << f1 / f2 << endl;
+		(f2.getNum() == 0) ? cout << f1 << " (/) " << f2 << " = " << f1 / f2 << endl : cout << "Division by zero.\n";
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Negating both fractions:\n";
 		cout << "The negated value of " << f1 << " is " << -f1 << endl;
 		cout << "The negated value of " << f2 << " is " << -f2 << endl;
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Calculating the reciprocal of both fractions:\n";
-		cout << "The reciprocal value of " << f1 << " is " << f1.reciprocal() << endl;
-		cout << "The reciprocal value of " << f2 << " is " << f2.reciprocal() << endl;
+		(f1.getNum() == 0) ? cout << "The reciprocal value of " << f1 << " is " << f1.reciprocal() << endl: cout << "Division by zero.\n";
+		(f2.getNum() == 0) ? cout << "The reciprocal value of " << f2 << " is " << f2.reciprocal() << endl: cout << "Division by zero.\n";
 		cout << "----------------------------------------------------------------------------------------\n";
 		cout << "Checking if fractions are equal:\n";
 		(f1 == f2) ? cout << "Fractions are equal" : cout << "Fractions are not equal" << endl;
