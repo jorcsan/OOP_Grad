@@ -1,2 +1,6 @@
-﻿  Fraction-2.cpp
+﻿  Driver.cpp
+C:\Users\Gizmodget\source\repos\OOP_Grad\Fractions\Driver.cpp(26,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Fraction.cpp
+  Generating Code...
+  LINK : C:\Users\Gizmodget\source\repos\OOP_Grad\x64\Debug\Fractions.exe not found or not built by the last incremental link; performing full link
   Fractions.vcxproj -> C:\Users\Gizmodget\source\repos\OOP_Grad\x64\Debug\Fractions.exe
