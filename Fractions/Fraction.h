@@ -8,7 +8,7 @@
 // Name: Michael Ellerkamp, and Jorge Santos
 // Parallel Programming Date: Date of Submission (M/D/Y)
 //**************************************************************
-/*Header files for the Fraction class.
+/*Header file for the Fraction class.
 This program is to create an abstract data type that is robust enough to handle most common operators.
 This ADT will also interact with ints and be able to be expressed as a double.
 The typing of the member variables are long ints.
